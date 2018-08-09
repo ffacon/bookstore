@@ -1,0 +1,6 @@
+entity News{
+author String required,
+category String required,
+content String required,
+likes Integer
+}

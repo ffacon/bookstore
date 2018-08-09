@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="news">
+            <h2><span jhiTranslate="bookstoreApp.news.detail.title">News</span> {{news.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="bookstoreApp.news.author">Author</span></dt>
+                <dd>
+                    <span>{{news.author}}</span>
+                </dd>
+                <dt><span jhiTranslate="bookstoreApp.news.category">Category</span></dt>
+                <dd>
+                    <span>{{news.category}}</span>
+                </dd>
+                <dt><span jhiTranslate="bookstoreApp.news.content">Content</span></dt>
+                <dd>
+                    <span>{{news.content}}</span>
+                </dd>
+                <dt><span jhiTranslate="bookstoreApp.news.likes">Likes</span></dt>
+                <dd>
+                    <span>{{news.likes}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/news', news.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
