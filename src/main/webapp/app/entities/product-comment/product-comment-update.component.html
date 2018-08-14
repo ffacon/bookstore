@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-product-comment-heading" jhiTranslate="bookstoreApp.productComment.home.createOrEditLabel">Create or edit a Product Comment</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!productComment.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="productComment.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="bookstoreApp.productComment.rate" for="field_rate">Rate</label>
+                    <input type="number" class="form-control" name="rate" id="field_rate"
+                        [(ngModel)]="productComment.rate" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="bookstoreApp.productComment.userName" for="field_userName">User Name</label>
+                    <input type="text" class="form-control" name="userName" id="field_userName"
+                        [(ngModel)]="productComment.userName" required/>
+                    <div [hidden]="!(editForm.controls.userName?.dirty && editForm.controls.userName?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.userName?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="bookstoreApp.productComment.userComment" for="field_userComment">User Comment</label>
+                    <input type="text" class="form-control" name="userComment" id="field_userComment"
+                        [(ngModel)]="productComment.userComment" required/>
+                    <div [hidden]="!(editForm.controls.userComment?.dirty && editForm.controls.userComment?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.userComment?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="bookstoreApp.productComment.product" for="field_product">Product</label>
+                    <select class="form-control" id="field_product" name="product" [(ngModel)]="productComment.product" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="productOption.id === productComment.product?.id ? productComment.product : productOption" *ngFor="let productOption of products; trackBy: trackProductById">{{productOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

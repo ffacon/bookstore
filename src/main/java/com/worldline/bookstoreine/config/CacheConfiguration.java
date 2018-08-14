@@ -39,6 +39,10 @@ public class CacheConfiguration {
             cm.createCache(com.worldline.bookstoreine.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.worldline.bookstoreine.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(com.worldline.bookstoreine.domain.News.class.getName(), jcacheConfiguration);
+            cm.createCache(com.worldline.bookstoreine.domain.Product.class.getName(), jcacheConfiguration);
+            cm.createCache(com.worldline.bookstoreine.domain.ProductComment.class.getName(), jcacheConfiguration);
+            cm.createCache(com.worldline.bookstoreine.domain.ProductComment.class.getName() + ".products", jcacheConfiguration);
+            cm.createCache(com.worldline.bookstoreine.domain.Product.class.getName() + ".comments", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

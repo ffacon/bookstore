@@ -1,0 +1,11 @@
+id;rate;user_name;user_comment;product_id
+1;2;Yassine;Test comment;1
+2;4;Sylvain;My comment...;1
+3;2;Sylvain;My comment...;2
+4;3;Sylvain;My comment...;2
+5;1;Sylvain;My comment...;2
+6;4;François;Very good;11
+7;4;François;En Français. Faites un geste pour Docteur Souris!;12
+8;4;François;Must Read!;13
+9;3;Nourredine;Very helpful;13
+10;4;Nourredine;Well done !;13

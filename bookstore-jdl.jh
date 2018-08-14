@@ -4,3 +4,23 @@ category String required,
 content String required,
 likes Integer
 }
+
+entity Product{
+name String required,
+author String required,
+price String required,
+description String,
+category String required,
+isNew Boolean
+mainPicture String
+}
+
+entity ProductComment{
+rate Integer,
+userName String required,
+userComment String required
+}
+
+relationship OneToMany {
+Product{comments} to ProductComment{product}
+}

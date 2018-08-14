@@ -1,0 +1,40 @@
+{
+    "name": "ProductComment",
+    "fields": [
+        {
+            "fieldName": "rate",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "userName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "userComment",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "product",
+            "otherEntityName": "product",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20180814123951",
+    "entityTableName": "product_comment",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

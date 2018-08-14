@@ -8,6 +8,8 @@
             "entities": {
                 "main": "Entities",
                 "news": "News",
+                "product": "Product",
+                "productComment": "Product Comment",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
