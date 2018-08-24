@@ -18,6 +18,7 @@ import { BookstoreAccountModule } from './account/account.module';
 import { BookstoreEntityModule } from './entities/entity.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent } from './layouts';
+import { BookstoreBookDetailsModule } from './bookDetails/booksDetails.module';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         BookstoreCoreModule,
         BookstoreHomeModule,
         BookstoreAccountModule,
-        BookstoreEntityModule
+        BookstoreEntityModule,
+        BookstoreBookDetailsModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
