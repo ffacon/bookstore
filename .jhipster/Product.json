@@ -53,7 +53,7 @@
     "changelogDate": "20180814123950",
     "entityTableName": "product",
     "dto": "no",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "no",
     "jpaMetamodelFiltering": false,
     "fluentMethods": true,
