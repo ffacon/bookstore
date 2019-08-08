@@ -4,7 +4,7 @@
       "packageName": "com.worldline.bookstoreine",
       "nativeLanguage": "en"
     },
-    "jhipsterVersion": "5.1.0",
+    "jhipsterVersion": "6.2.0",
     "applicationType": "monolith",
     "baseName": "bookstore",
     "packageName": "com.worldline.bookstoreine",
@@ -24,7 +24,7 @@
     "enableSwaggerCodegen": false,
     "jwtSecretKey": "a77cf4970f23c7408e3d97e33b277d99c347781a",
     "clientFramework": "angularX",
-    "useSass": false,
+    "useSass": true,
     "clientPackageManager": "yarn",
     "testFrameworks": [],
     "jhiPrefix": "jhi",
@@ -32,6 +32,11 @@
     "nativeLanguage": "en",
     "languages": [
       "en"
-    ]
+    ],
+    "clientTheme": "none",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "blueprints": []
   }
 }

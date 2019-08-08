@@ -4,13 +4,16 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-news" [routerLink]="['/news/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="bookstoreApp.news.home.createLabel">
-            Create new News
+            Create a new News
             </span>
         </button>
     </h2>
     <jhi-alert></jhi-alert>
     <br/>
-    <div class="table-responsive" *ngIf="news">
+    <div class="alert alert-warning" *ngIf="news?.length === 0">
+        <span jhiTranslate="bookstoreApp.news.home.notFound">No news found</span>
+    </div>
+    <div class="table-responsive" *ngIf="news?.length > 0">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -30,7 +33,7 @@
                 <td>{{news.content}}</td>
                 <td>{{news.likes}}</td>
                 <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
+                    <div class="btn-group">
                         <button type="submit"
                                 [routerLink]="['/news', news.id, 'view' ]"
                                 class="btn btn-info btn-sm">
@@ -44,7 +47,7 @@
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'news/'+ news.id + '/delete'} }]"
+                                [routerLink]="['/news', { outlets: { popup: news.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">

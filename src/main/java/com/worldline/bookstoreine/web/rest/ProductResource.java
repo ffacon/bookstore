@@ -1,18 +1,20 @@
 package com.worldline.bookstoreine.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
 import com.worldline.bookstoreine.domain.Product;
 import com.worldline.bookstoreine.repository.ProductRepository;
 import com.worldline.bookstoreine.web.rest.errors.BadRequestAlertException;
-import com.worldline.bookstoreine.web.rest.util.HeaderUtil;
-import com.worldline.bookstoreine.web.rest.util.PaginationUtil;
+
+import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST controller for managing Product.
+ * REST controller for managing {@link com.worldline.bookstoreine.domain.Product}.
  */
 @RestController
 @RequestMapping("/api")
@@ -34,6 +36,9 @@ public class ProductResource {
 
     private static final String ENTITY_NAME = "product";
 
+    @Value("${jhipster.clientApp.name}")
+    private String applicationName;
+
     private final ProductRepository productRepository;
 
     public ProductResource(ProductRepository productRepository) {
@@ -41,14 +46,13 @@ public class ProductResource {
     }
 
     /**
-     * POST  /products : Create a new product.
+     * {@code POST  /products} : Create a new product.
      *
-     * @param product the product to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new product, or with status 400 (Bad Request) if the product has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param product the product to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new product, or with status {@code 400 (Bad Request)} if the product has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/products")
-    @Timed
     public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) throws URISyntaxException {
         log.debug("REST request to save Product : {}", product);
         if (product.getId() != null) {
@@ -56,21 +60,20 @@ public class ProductResource {
         }
         Product result = productRepository.save(product);
         return ResponseEntity.created(new URI("/api/products/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
-     * PUT  /products : Updates an existing product.
+     * {@code PUT  /products} : Updates an existing product.
      *
-     * @param product the product to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated product,
-     * or with status 400 (Bad Request) if the product is not valid,
-     * or with status 500 (Internal Server Error) if the product couldn't be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
+     * @param product the product to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated product,
+     * or with status {@code 400 (Bad Request)} if the product is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the product couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/products")
-    @Timed
     public ResponseEntity<Product> updateProduct(@Valid @RequestBody Product product) throws URISyntaxException {
         log.debug("REST request to update Product : {}", product);
         if (product.getId() == null) {
@@ -78,33 +81,33 @@ public class ProductResource {
         }
         Product result = productRepository.save(product);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, product.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, product.getId().toString()))
             .body(result);
     }
 
     /**
-     * GET  /products : get all the products.
+     * {@code GET  /products} : get all the products.
      *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of products in body
+
+     * @param pageable the pagination information.
+
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of products in body.
      */
     @GetMapping("/products")
-    @Timed
     public ResponseEntity<List<Product>> getAllProducts(Pageable pageable) {
         log.debug("REST request to get a page of Products");
         Page<Product> page = productRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/products");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
-     * GET  /products/:id : get the "id" product.
+     * {@code GET  /products/:id} : get the "id" product.
      *
-     * @param id the id of the product to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the product, or with status 404 (Not Found)
+     * @param id the id of the product to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the product, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/products/{id}")
-    @Timed
     public ResponseEntity<Product> getProduct(@PathVariable Long id) {
         log.debug("REST request to get Product : {}", id);
         Optional<Product> product = productRepository.findById(id);
@@ -112,17 +115,15 @@ public class ProductResource {
     }
 
     /**
-     * DELETE  /products/:id : delete the "id" product.
+     * {@code DELETE  /products/:id} : delete the "id" product.
      *
-     * @param id the id of the product to delete
-     * @return the ResponseEntity with status 200 (OK)
+     * @param id the id of the product to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/products/{id}")
-    @Timed
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         log.debug("REST request to delete Product : {}", id);
-
         productRepository.deleteById(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 }

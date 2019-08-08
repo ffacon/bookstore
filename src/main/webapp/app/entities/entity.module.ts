@@ -1,21 +1,27 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-import { BookstoreNewsModule } from './news/news.module';
-import { BookstoreProductModule } from './product/product.module';
-import { BookstoreProductCommentModule } from './product-comment/product-comment.module';
-/* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-    // prettier-ignore
-    imports: [
-        BookstoreNewsModule,
-        BookstoreProductModule,
-        BookstoreProductCommentModule,
-        /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
-    ],
-    declarations: [],
-    entryComponents: [],
-    providers: [],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [
+    RouterModule.forChild([
+      {
+        path: 'news',
+        loadChildren: () => import('./news/news.module').then(m => m.BookstoreNewsModule)
+      },
+      {
+        path: 'product',
+        loadChildren: () => import('./product/product.module').then(m => m.BookstoreProductModule)
+      },
+      {
+        path: 'product-comment',
+        loadChildren: () => import('./product-comment/product-comment.module').then(m => m.BookstoreProductCommentModule)
+      }
+      /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
+    ])
+  ],
+  declarations: [],
+  entryComponents: [],
+  providers: [],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class BookstoreEntityModule {}
