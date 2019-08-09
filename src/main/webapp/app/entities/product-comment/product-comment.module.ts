@@ -1,18 +1,12 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { JhiLanguageService } from 'ng-jhipster';
-import { JhiLanguageHelper } from 'app/core';
 
-import { BookstoreSharedModule } from 'app/shared';
-import {
-  ProductCommentComponent,
-  ProductCommentDetailComponent,
-  ProductCommentUpdateComponent,
-  ProductCommentDeletePopupComponent,
-  ProductCommentDeleteDialogComponent,
-  productCommentRoute,
-  productCommentPopupRoute
-} from './';
+import { BookstoreSharedModule } from 'app/shared/shared.module';
+import { ProductCommentComponent } from './product-comment.component';
+import { ProductCommentDetailComponent } from './product-comment-detail.component';
+import { ProductCommentUpdateComponent } from './product-comment-update.component';
+import { ProductCommentDeletePopupComponent, ProductCommentDeleteDialogComponent } from './product-comment-delete-dialog.component';
+import { productCommentRoute, productCommentPopupRoute } from './product-comment.route';
 
 const ENTITY_STATES = [...productCommentRoute, ...productCommentPopupRoute];
 
@@ -25,21 +19,6 @@ const ENTITY_STATES = [...productCommentRoute, ...productCommentPopupRoute];
     ProductCommentDeleteDialogComponent,
     ProductCommentDeletePopupComponent
   ],
-  entryComponents: [
-    ProductCommentComponent,
-    ProductCommentUpdateComponent,
-    ProductCommentDeleteDialogComponent,
-    ProductCommentDeletePopupComponent
-  ],
-  providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  entryComponents: [ProductCommentDeleteDialogComponent]
 })
-export class BookstoreProductCommentModule {
-  constructor(private languageService: JhiLanguageService, private languageHelper: JhiLanguageHelper) {
-    this.languageHelper.language.subscribe((languageKey: string) => {
-      if (languageKey) {
-        this.languageService.changeLanguage(languageKey);
-      }
-    });
-  }
-}
+export class BookstoreProductCommentModule {}

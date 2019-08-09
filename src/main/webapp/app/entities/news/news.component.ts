@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { INews } from 'app/shared/model/news.model';
-import { AccountService } from 'app/core';
+import { AccountService } from 'app/core/auth/account.service';
 import { NewsService } from './news.service';
 
 @Component({
@@ -17,12 +18,7 @@ export class NewsComponent implements OnInit, OnDestroy {
   currentAccount: any;
   eventSubscriber: Subscription;
 
-  constructor(
-    protected newsService: NewsService,
-    protected jhiAlertService: JhiAlertService,
-    protected eventManager: JhiEventManager,
-    protected accountService: AccountService
-  ) {}
+  constructor(protected newsService: NewsService, protected eventManager: JhiEventManager, protected accountService: AccountService) {}
 
   loadAll() {
     this.newsService
@@ -31,17 +27,14 @@ export class NewsComponent implements OnInit, OnDestroy {
         filter((res: HttpResponse<INews[]>) => res.ok),
         map((res: HttpResponse<INews[]>) => res.body)
       )
-      .subscribe(
-        (res: INews[]) => {
-          this.news = res;
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      .subscribe((res: INews[]) => {
+        this.news = res;
+      });
   }
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().then(account => {
+    this.accountService.identity().subscribe(account => {
       this.currentAccount = account;
     });
     this.registerChangeInNews();
@@ -57,9 +50,5 @@ export class NewsComponent implements OnInit, OnDestroy {
 
   registerChangeInNews() {
     this.eventSubscriber = this.eventManager.subscribe('newsListModification', response => this.loadAll());
-  }
-
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
   }
 }

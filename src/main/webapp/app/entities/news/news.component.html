@@ -8,21 +8,22 @@
             </span>
         </button>
     </h2>
+    <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="news?.length === 0">
         <span jhiTranslate="bookstoreApp.news.home.notFound">No news found</span>
     </div>
     <div class="table-responsive" *ngIf="news?.length > 0">
-        <table class="table table-striped">
+        <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr>
-            <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="bookstoreApp.news.author">Author</span></th>
-            <th><span jhiTranslate="bookstoreApp.news.category">Category</span></th>
-            <th><span jhiTranslate="bookstoreApp.news.content">Content</span></th>
-            <th><span jhiTranslate="bookstoreApp.news.likes">Likes</span></th>
-            <th></th>
+            <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+            <th scope="col" ><span jhiTranslate="bookstoreApp.news.author">Author</span></th>
+            <th scope="col" ><span jhiTranslate="bookstoreApp.news.category">Category</span></th>
+            <th scope="col" ><span jhiTranslate="bookstoreApp.news.content">Content</span></th>
+            <th scope="col" ><span jhiTranslate="bookstoreApp.news.likes">Likes</span></th>
+            <th scope="col"></th>
             </tr>
             </thead>
             <tbody>

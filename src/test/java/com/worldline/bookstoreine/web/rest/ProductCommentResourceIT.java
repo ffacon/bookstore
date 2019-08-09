@@ -35,7 +35,6 @@ public class ProductCommentResourceIT {
 
     private static final Integer DEFAULT_RATE = 1;
     private static final Integer UPDATED_RATE = 2;
-    private static final Integer SMALLER_RATE = 1 - 1;
 
     private static final String DEFAULT_USER_NAME = "AAAAAAAAAA";
     private static final String UPDATED_USER_NAME = "BBBBBBBBBB";
@@ -197,8 +196,8 @@ public class ProductCommentResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(productComment.getId().intValue())))
             .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE)))
-            .andExpect(jsonPath("$.[*].userName").value(hasItem(DEFAULT_USER_NAME.toString())))
-            .andExpect(jsonPath("$.[*].userComment").value(hasItem(DEFAULT_USER_COMMENT.toString())));
+            .andExpect(jsonPath("$.[*].userName").value(hasItem(DEFAULT_USER_NAME)))
+            .andExpect(jsonPath("$.[*].userComment").value(hasItem(DEFAULT_USER_COMMENT)));
     }
     
     @Test
@@ -213,8 +212,8 @@ public class ProductCommentResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(productComment.getId().intValue()))
             .andExpect(jsonPath("$.rate").value(DEFAULT_RATE))
-            .andExpect(jsonPath("$.userName").value(DEFAULT_USER_NAME.toString()))
-            .andExpect(jsonPath("$.userComment").value(DEFAULT_USER_COMMENT.toString()));
+            .andExpect(jsonPath("$.userName").value(DEFAULT_USER_NAME))
+            .andExpect(jsonPath("$.userComment").value(DEFAULT_USER_COMMENT));
     }
 
     @Test

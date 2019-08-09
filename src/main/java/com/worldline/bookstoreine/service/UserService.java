@@ -9,7 +9,6 @@ import com.worldline.bookstoreine.security.AuthoritiesConstants;
 import com.worldline.bookstoreine.security.SecurityUtils;
 import com.worldline.bookstoreine.service.dto.UserDTO;
 import com.worldline.bookstoreine.service.util.RandomUtil;
-import com.worldline.bookstoreine.web.rest.errors.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,7 +90,7 @@ public class UserService {
         userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
-                throw new LoginAlreadyUsedException();
+                throw new UsernameAlreadyUsedException();
             }
         });
         userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).ifPresent(existingUser -> {
