@@ -1,58 +1,89 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-
-import { IProduct } from 'app/shared/model/product.model';
+import { IProduct, Product } from 'app/shared/model/product.model';
 import { ProductService } from './product.service';
 
 @Component({
-    selector: 'jhi-product-update',
-    templateUrl: './product-update.component.html'
+  selector: 'jhi-product-update',
+  templateUrl: './product-update.component.html'
 })
 export class ProductUpdateComponent implements OnInit {
-    private _product: IProduct;
-    isSaving: boolean;
+  isSaving: boolean;
 
-    constructor(private productService: ProductService, private activatedRoute: ActivatedRoute) {}
+  editForm = this.fb.group({
+    id: [],
+    name: [null, [Validators.required]],
+    author: [null, [Validators.required]],
+    price: [null, [Validators.required]],
+    description: [],
+    category: [null, [Validators.required]],
+    isNew: [],
+    mainPicture: []
+  });
 
-    ngOnInit() {
-        this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ product }) => {
-            this.product = product;
-        });
-    }
+  constructor(protected productService: ProductService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
 
-    previousState() {
-        window.history.back();
-    }
+  ngOnInit() {
+    this.isSaving = false;
+    this.activatedRoute.data.subscribe(({ product }) => {
+      this.updateForm(product);
+    });
+  }
 
-    save() {
-        this.isSaving = true;
-        if (this.product.id !== undefined) {
-            this.subscribeToSaveResponse(this.productService.update(this.product));
-        } else {
-            this.subscribeToSaveResponse(this.productService.create(this.product));
-        }
-    }
+  updateForm(product: IProduct) {
+    this.editForm.patchValue({
+      id: product.id,
+      name: product.name,
+      author: product.author,
+      price: product.price,
+      description: product.description,
+      category: product.category,
+      isNew: product.isNew,
+      mainPicture: product.mainPicture
+    });
+  }
 
-    private subscribeToSaveResponse(result: Observable<HttpResponse<IProduct>>) {
-        result.subscribe((res: HttpResponse<IProduct>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
-    }
+  previousState() {
+    window.history.back();
+  }
 
-    private onSaveSuccess() {
-        this.isSaving = false;
-        this.previousState();
+  save() {
+    this.isSaving = true;
+    const product = this.createFromForm();
+    if (product.id !== undefined) {
+      this.subscribeToSaveResponse(this.productService.update(product));
+    } else {
+      this.subscribeToSaveResponse(this.productService.create(product));
     }
+  }
 
-    private onSaveError() {
-        this.isSaving = false;
-    }
-    get product() {
-        return this._product;
-    }
+  private createFromForm(): IProduct {
+    return {
+      ...new Product(),
+      id: this.editForm.get(['id']).value,
+      name: this.editForm.get(['name']).value,
+      author: this.editForm.get(['author']).value,
+      price: this.editForm.get(['price']).value,
+      description: this.editForm.get(['description']).value,
+      category: this.editForm.get(['category']).value,
+      isNew: this.editForm.get(['isNew']).value,
+      mainPicture: this.editForm.get(['mainPicture']).value
+    };
+  }
 
-    set product(product: IProduct) {
-        this._product = product;
-    }
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IProduct>>) {
+    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  }
+
+  protected onSaveSuccess() {
+    this.isSaving = false;
+    this.previousState();
+  }
+
+  protected onSaveError() {
+    this.isSaving = false;
+  }
 }

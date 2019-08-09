@@ -1,58 +1,80 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-
-import { INews } from 'app/shared/model/news.model';
+import { INews, News } from 'app/shared/model/news.model';
 import { NewsService } from './news.service';
 
 @Component({
-    selector: 'jhi-news-update',
-    templateUrl: './news-update.component.html'
+  selector: 'jhi-news-update',
+  templateUrl: './news-update.component.html'
 })
 export class NewsUpdateComponent implements OnInit {
-    private _news: INews;
-    isSaving: boolean;
+  isSaving: boolean;
 
-    constructor(private newsService: NewsService, private activatedRoute: ActivatedRoute) {}
+  editForm = this.fb.group({
+    id: [],
+    author: [null, [Validators.required]],
+    category: [null, [Validators.required]],
+    content: [null, [Validators.required]],
+    likes: []
+  });
 
-    ngOnInit() {
-        this.isSaving = false;
-        this.activatedRoute.data.subscribe(({ news }) => {
-            this.news = news;
-        });
-    }
+  constructor(protected newsService: NewsService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
 
-    previousState() {
-        window.history.back();
-    }
+  ngOnInit() {
+    this.isSaving = false;
+    this.activatedRoute.data.subscribe(({ news }) => {
+      this.updateForm(news);
+    });
+  }
 
-    save() {
-        this.isSaving = true;
-        if (this.news.id !== undefined) {
-            this.subscribeToSaveResponse(this.newsService.update(this.news));
-        } else {
-            this.subscribeToSaveResponse(this.newsService.create(this.news));
-        }
-    }
+  updateForm(news: INews) {
+    this.editForm.patchValue({
+      id: news.id,
+      author: news.author,
+      category: news.category,
+      content: news.content,
+      likes: news.likes
+    });
+  }
 
-    private subscribeToSaveResponse(result: Observable<HttpResponse<INews>>) {
-        result.subscribe((res: HttpResponse<INews>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
-    }
+  previousState() {
+    window.history.back();
+  }
 
-    private onSaveSuccess() {
-        this.isSaving = false;
-        this.previousState();
+  save() {
+    this.isSaving = true;
+    const news = this.createFromForm();
+    if (news.id !== undefined) {
+      this.subscribeToSaveResponse(this.newsService.update(news));
+    } else {
+      this.subscribeToSaveResponse(this.newsService.create(news));
     }
+  }
 
-    private onSaveError() {
-        this.isSaving = false;
-    }
-    get news() {
-        return this._news;
-    }
+  private createFromForm(): INews {
+    return {
+      ...new News(),
+      id: this.editForm.get(['id']).value,
+      author: this.editForm.get(['author']).value,
+      category: this.editForm.get(['category']).value,
+      content: this.editForm.get(['content']).value,
+      likes: this.editForm.get(['likes']).value
+    };
+  }
 
-    set news(news: INews) {
-        this._news = news;
-    }
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<INews>>) {
+    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  }
+
+  protected onSaveSuccess() {
+    this.isSaving = false;
+    this.previousState();
+  }
+
+  protected onSaveError() {
+    this.isSaving = false;
+  }
 }

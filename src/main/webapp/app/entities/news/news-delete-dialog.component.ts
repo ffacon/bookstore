@@ -8,58 +8,58 @@ import { INews } from 'app/shared/model/news.model';
 import { NewsService } from './news.service';
 
 @Component({
-    selector: 'jhi-news-delete-dialog',
-    templateUrl: './news-delete-dialog.component.html'
+  selector: 'jhi-news-delete-dialog',
+  templateUrl: './news-delete-dialog.component.html'
 })
 export class NewsDeleteDialogComponent {
-    news: INews;
+  news: INews;
 
-    constructor(private newsService: NewsService, public activeModal: NgbActiveModal, private eventManager: JhiEventManager) {}
+  constructor(protected newsService: NewsService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-    clear() {
-        this.activeModal.dismiss('cancel');
-    }
+  clear() {
+    this.activeModal.dismiss('cancel');
+  }
 
-    confirmDelete(id: number) {
-        this.newsService.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'newsListModification',
-                content: 'Deleted an news'
-            });
-            this.activeModal.dismiss(true);
-        });
-    }
+  confirmDelete(id: number) {
+    this.newsService.delete(id).subscribe(response => {
+      this.eventManager.broadcast({
+        name: 'newsListModification',
+        content: 'Deleted an news'
+      });
+      this.activeModal.dismiss(true);
+    });
+  }
 }
 
 @Component({
-    selector: 'jhi-news-delete-popup',
-    template: ''
+  selector: 'jhi-news-delete-popup',
+  template: ''
 })
 export class NewsDeletePopupComponent implements OnInit, OnDestroy {
-    private ngbModalRef: NgbModalRef;
+  protected ngbModalRef: NgbModalRef;
 
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
+  constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
-    ngOnInit() {
-        this.activatedRoute.data.subscribe(({ news }) => {
-            setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(NewsDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
-                this.ngbModalRef.componentInstance.news = news;
-                this.ngbModalRef.result.then(
-                    result => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
-                        this.ngbModalRef = null;
-                    },
-                    reason => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
-                        this.ngbModalRef = null;
-                    }
-                );
-            }, 0);
-        });
-    }
+  ngOnInit() {
+    this.activatedRoute.data.subscribe(({ news }) => {
+      setTimeout(() => {
+        this.ngbModalRef = this.modalService.open(NewsDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
+        this.ngbModalRef.componentInstance.news = news;
+        this.ngbModalRef.result.then(
+          result => {
+            this.router.navigate(['/news', { outlets: { popup: null } }]);
+            this.ngbModalRef = null;
+          },
+          reason => {
+            this.router.navigate(['/news', { outlets: { popup: null } }]);
+            this.ngbModalRef = null;
+          }
+        );
+      }, 0);
+    });
+  }
 
-    ngOnDestroy() {
-        this.ngbModalRef = null;
-    }
+  ngOnDestroy() {
+    this.ngbModalRef = null;
+  }
 }

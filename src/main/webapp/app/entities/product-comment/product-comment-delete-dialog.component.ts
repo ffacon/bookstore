@@ -8,65 +8,62 @@ import { IProductComment } from 'app/shared/model/product-comment.model';
 import { ProductCommentService } from './product-comment.service';
 
 @Component({
-    selector: 'jhi-product-comment-delete-dialog',
-    templateUrl: './product-comment-delete-dialog.component.html'
+  selector: 'jhi-product-comment-delete-dialog',
+  templateUrl: './product-comment-delete-dialog.component.html'
 })
 export class ProductCommentDeleteDialogComponent {
-    productComment: IProductComment;
+  productComment: IProductComment;
 
-    constructor(
-        private productCommentService: ProductCommentService,
-        public activeModal: NgbActiveModal,
-        private eventManager: JhiEventManager
-    ) {}
+  constructor(
+    protected productCommentService: ProductCommentService,
+    public activeModal: NgbActiveModal,
+    protected eventManager: JhiEventManager
+  ) {}
 
-    clear() {
-        this.activeModal.dismiss('cancel');
-    }
+  clear() {
+    this.activeModal.dismiss('cancel');
+  }
 
-    confirmDelete(id: number) {
-        this.productCommentService.delete(id).subscribe(response => {
-            this.eventManager.broadcast({
-                name: 'productCommentListModification',
-                content: 'Deleted an productComment'
-            });
-            this.activeModal.dismiss(true);
-        });
-    }
+  confirmDelete(id: number) {
+    this.productCommentService.delete(id).subscribe(response => {
+      this.eventManager.broadcast({
+        name: 'productCommentListModification',
+        content: 'Deleted an productComment'
+      });
+      this.activeModal.dismiss(true);
+    });
+  }
 }
 
 @Component({
-    selector: 'jhi-product-comment-delete-popup',
-    template: ''
+  selector: 'jhi-product-comment-delete-popup',
+  template: ''
 })
 export class ProductCommentDeletePopupComponent implements OnInit, OnDestroy {
-    private ngbModalRef: NgbModalRef;
+  protected ngbModalRef: NgbModalRef;
 
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
+  constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
-    ngOnInit() {
-        this.activatedRoute.data.subscribe(({ productComment }) => {
-            setTimeout(() => {
-                this.ngbModalRef = this.modalService.open(ProductCommentDeleteDialogComponent as Component, {
-                    size: 'lg',
-                    backdrop: 'static'
-                });
-                this.ngbModalRef.componentInstance.productComment = productComment;
-                this.ngbModalRef.result.then(
-                    result => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
-                        this.ngbModalRef = null;
-                    },
-                    reason => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
-                        this.ngbModalRef = null;
-                    }
-                );
-            }, 0);
-        });
-    }
+  ngOnInit() {
+    this.activatedRoute.data.subscribe(({ productComment }) => {
+      setTimeout(() => {
+        this.ngbModalRef = this.modalService.open(ProductCommentDeleteDialogComponent as Component, { size: 'lg', backdrop: 'static' });
+        this.ngbModalRef.componentInstance.productComment = productComment;
+        this.ngbModalRef.result.then(
+          result => {
+            this.router.navigate(['/product-comment', { outlets: { popup: null } }]);
+            this.ngbModalRef = null;
+          },
+          reason => {
+            this.router.navigate(['/product-comment', { outlets: { popup: null } }]);
+            this.ngbModalRef = null;
+          }
+        );
+      }, 0);
+    });
+  }
 
-    ngOnDestroy() {
-        this.ngbModalRef = null;
-    }
+  ngOnDestroy() {
+    this.ngbModalRef = null;
+  }
 }
