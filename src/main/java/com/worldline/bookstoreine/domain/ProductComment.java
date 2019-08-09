@@ -1,5 +1,4 @@
 package com.worldline.bookstoreine.domain;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -8,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * A ProductComment.
@@ -36,7 +34,7 @@ public class ProductComment implements Serializable {
     private String userComment;
 
     @ManyToOne
-    @JsonIgnoreProperties("comments")
+    @JsonIgnoreProperties("productComments")
     private Product product;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -106,19 +104,15 @@ public class ProductComment implements Serializable {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof ProductComment)) {
             return false;
         }
-        ProductComment productComment = (ProductComment) o;
-        if (productComment.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), productComment.getId());
+        return id != null && id.equals(((ProductComment) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        return 31;
     }
 
     @Override
