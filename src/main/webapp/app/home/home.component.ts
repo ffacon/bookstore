@@ -1,11 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { LoginModalService } from 'app/core/login/login-modal.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
-import { LoginModalService, AccountService, Account } from 'app/core';
-import { INews } from 'app/shared/model/news.model';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Subscription, Observable } from 'rxjs';
-import { NewsService } from 'app/entities/news/news.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { INews } from '../shared/model/news.model';
+import { JhiEventManager } from 'ng-jhipster';
+import { NewsService } from '../entities/news/news.service';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-home',
@@ -14,7 +16,7 @@ import { NewsService } from 'app/entities/news/news.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account;
-  eventSubscriber: Subscription;
+  authSubscription: Subscription;
   modalRef: NgbModalRef;
 
   message = 'Welcome in our shop!!!';
@@ -27,7 +29,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     private accountService: AccountService,
     private loginModalService: LoginModalService,
     private eventManager: JhiEventManager,
-    private jhiAlertService: JhiAlertService,
     private newsService: NewsService
   ) {}
 
@@ -37,7 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.news = res.body;
         // select on news as the news of the day
         const randomInt = Math.floor(Math.random() * this.news.length);
-        console.log('randomInt:' + randomInt + '/' + this.news.length);
+        // console.log('randomInt:' + randomInt + '/' + this.news.length);
         this.newsOfTheDay = this.news[randomInt];
       },
       (res: HttpErrorResponse) => this.onError(res.message)
@@ -45,7 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.accountService.identity().then(account => {
+    this.accountService.identity().subscribe((account: Account) => {
       this.account = account;
     });
     this.registerAuthenticationSuccess();
@@ -54,12 +55,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+    // console.log('ngOnDestroy');
   }
 
   registerAuthenticationSuccess() {
-    this.eventManager.subscribe('authenticationSuccess', message => {
-      this.accountService.identity().then(account => {
+    this.authSubscription = this.eventManager.subscribe('authenticationSuccess', message => {
+      this.accountService.identity().subscribe(account => {
         this.account = account;
       });
     });
@@ -109,18 +110,18 @@ export class HomeComponent implements OnInit, OnDestroy {
       name: 'newsListModification',
       content: 'User updated'
     });
-    console.log('onSaveSuccess');
+    // console.log('onSaveSuccess');
   }
 
   private onSaveError() {
-    console.log('onSaveError');
+    // console.log('onSaveError');
   }
 
   registerChangeInNews() {
-    this.eventSubscriber = this.eventManager.subscribe('newsListModification', response => this.loadAll());
+    this.eventManager.subscribe('newsListModification', response => this.loadAll());
   }
 
   private onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
+    // console.log(errorMessage, null, null);
   }
 }

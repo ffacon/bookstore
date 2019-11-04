@@ -1,18 +1,12 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { JhiLanguageService } from 'ng-jhipster';
-import { JhiLanguageHelper } from 'app/core';
 
-import { BookstoreSharedModule } from 'app/shared';
-import {
-  ProductComponent,
-  ProductDetailComponent,
-  ProductUpdateComponent,
-  ProductDeletePopupComponent,
-  ProductDeleteDialogComponent,
-  productRoute,
-  productPopupRoute
-} from './';
+import { BookstoreSharedModule } from 'app/shared/shared.module';
+import { ProductComponent } from './product.component';
+import { ProductDetailComponent } from './product-detail.component';
+import { ProductUpdateComponent } from './product-update.component';
+import { ProductDeletePopupComponent, ProductDeleteDialogComponent } from './product-delete-dialog.component';
+import { productRoute, productPopupRoute } from './product.route';
 
 const ENTITY_STATES = [...productRoute, ...productPopupRoute];
 
@@ -25,16 +19,6 @@ const ENTITY_STATES = [...productRoute, ...productPopupRoute];
     ProductDeleteDialogComponent,
     ProductDeletePopupComponent
   ],
-  entryComponents: [ProductComponent, ProductUpdateComponent, ProductDeleteDialogComponent, ProductDeletePopupComponent],
-  providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  entryComponents: [ProductDeleteDialogComponent]
 })
-export class BookstoreProductModule {
-  constructor(private languageService: JhiLanguageService, private languageHelper: JhiLanguageHelper) {
-    this.languageHelper.language.subscribe((languageKey: string) => {
-      if (languageKey) {
-        this.languageService.changeLanguage(languageKey);
-      }
-    });
-  }
-}
+export class BookstoreProductModule {}

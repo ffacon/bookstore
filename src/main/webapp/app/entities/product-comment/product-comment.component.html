@@ -8,21 +8,22 @@
             </span>
         </button>
     </h2>
+    <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="productComments?.length === 0">
         <span jhiTranslate="bookstoreApp.productComment.home.notFound">No productComments found</span>
     </div>
     <div class="table-responsive" *ngIf="productComments?.length > 0">
-        <table class="table table-striped">
+        <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr>
-            <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="bookstoreApp.productComment.rate">Rate</span></th>
-            <th><span jhiTranslate="bookstoreApp.productComment.userName">User Name</span></th>
-            <th><span jhiTranslate="bookstoreApp.productComment.userComment">User Comment</span></th>
-            <th><span jhiTranslate="bookstoreApp.productComment.product">Product</span></th>
-            <th></th>
+            <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+            <th scope="col" ><span jhiTranslate="bookstoreApp.productComment.rate">Rate</span></th>
+            <th scope="col" ><span jhiTranslate="bookstoreApp.productComment.userName">User Name</span></th>
+            <th scope="col" ><span jhiTranslate="bookstoreApp.productComment.userComment">User Comment</span></th>
+            <th scope="col" ><span jhiTranslate="bookstoreApp.productComment.product">Product</span></th>
+            <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
