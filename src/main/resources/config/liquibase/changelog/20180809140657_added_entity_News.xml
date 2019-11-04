@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="autoIncrement" value="true"/>
+        <property name="autoIncrement" value="true"/>
 
     <!--
         Added the entity News.
@@ -19,19 +19,15 @@
             <column name="author" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-
             <column name="category" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-
             <column name="content" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-
             <column name="likes" type="integer">
                 <constraints nullable="true" />
             </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <loadData encoding="UTF-8"

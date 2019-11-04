@@ -44,7 +44,6 @@ public class NewsResourceIT {
 
     private static final Integer DEFAULT_LIKES = 1;
     private static final Integer UPDATED_LIKES = 2;
-    private static final Integer SMALLER_LIKES = 1 - 1;
 
     @Autowired
     private NewsRepository newsRepository;
@@ -220,9 +219,9 @@ public class NewsResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(news.getId().intValue())))
-            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR.toString())))
-            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
+            .andExpect(jsonPath("$.[*].author").value(hasItem(DEFAULT_AUTHOR)))
+            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY)))
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT)))
             .andExpect(jsonPath("$.[*].likes").value(hasItem(DEFAULT_LIKES)));
     }
     
@@ -237,9 +236,9 @@ public class NewsResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(news.getId().intValue()))
-            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR.toString()))
-            .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
-            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()))
+            .andExpect(jsonPath("$.author").value(DEFAULT_AUTHOR))
+            .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY))
+            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT))
             .andExpect(jsonPath("$.likes").value(DEFAULT_LIKES));
     }
 

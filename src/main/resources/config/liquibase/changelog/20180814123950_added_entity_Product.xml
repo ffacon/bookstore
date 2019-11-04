@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <property name="autoIncrement" value="true"/>
+        <property name="autoIncrement" value="true"/>
 
     <!--
         Added the entity Product.
@@ -19,31 +19,24 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-
             <column name="author" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-
             <column name="price" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-
             <column name="category" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-
             <column name="is_new" type="boolean">
                 <constraints nullable="true" />
             </column>
-
             <column name="main_picture" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <loadData encoding="UTF-8"

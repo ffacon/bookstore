@@ -4,7 +4,7 @@
       "packageName": "com.worldline.bookstoreine",
       "nativeLanguage": "en"
     },
-    "jhipsterVersion": "6.2.0",
+    "jhipsterVersion": "6.4.1",
     "applicationType": "monolith",
     "baseName": "bookstore",
     "packageName": "com.worldline.bookstoreine",
@@ -35,6 +35,7 @@
     "entitySuffix": "",
     "dtoSuffix": "DTO",
     "otherModules": [],
-    "blueprints": []
+    "blueprints": [],
+    "embeddableLaunchScript": false
   }
 }

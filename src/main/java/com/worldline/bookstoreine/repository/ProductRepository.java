@@ -1,5 +1,4 @@
 package com.worldline.bookstoreine.repository;
-
 import com.worldline.bookstoreine.domain.Product;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;

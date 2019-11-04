@@ -1,6 +1,5 @@
 package com.worldline.bookstoreine.service.mapper;
 
-
 import com.worldline.bookstoreine.BookstoreApp;
 import com.worldline.bookstoreine.domain.User;
 import com.worldline.bookstoreine.service.dto.UserDTO;
